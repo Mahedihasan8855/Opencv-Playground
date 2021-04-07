@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 path="image/rose.jpg"
+road=cv.imread("image/road.jpg",1)
 img= cv.imread(path,1)
 vid=cv.VideoCapture("video/dog.mp4")
 '''
@@ -14,13 +15,16 @@ cv.destroyAllWindows()
 resized_image=cv.resize(img,(0,0),fx=.4,fy=.4)
 
 #fuction for resizing image
-def ressized_frame(frame,scale=.5):
+def resized_frame(frame,scale=.5):
     width = int(frame.shape[1] * scale)
     height = int(frame.shape[0] * scale)
     dim=(width,height)
     return cv.resize(frame,dim,interpolation=cv.INTER_AREA)
 
 
+def square(frame):
+    w,h=400,400
+    return cv.resize(frame,(w,h))
 
 
 #function for rescaleframe
@@ -31,7 +35,7 @@ def rescaleframe(frame, scale=0.2):
 
     return cv.resize(frame,dimention,interpolation=cv.INTER_AREA)
 
-resized_image=ressized_frame(img)
+resized_image=resized_frame(img)
 rescaled_image=rescaleframe(img)
 image_gray=cv.cvtColor(img,cv.COLOR_BGR2GRAY) # Band W image
 image_blur=cv.GaussianBlur(img,(7,7),0)# blur ( ) blur
@@ -45,13 +49,9 @@ image_erosion=cv.erode(image_dialation,kernel,iterations=1)
 image_gradient = cv.morphologyEx(image_canny, cv.MORPH_GRADIENT, kernel)
 image_blackhat = cv.morphologyEx(image_canny, cv.MORPH_BLACKHAT, kernel)
 
-
-
-
 cv.imshow("image_showing",image_erosion)
 
 cv.waitKey(0)
-
 
 
 #playing video and 0xFF==ord("f") for close window clicking f
@@ -77,5 +77,17 @@ while True:
         break
 
 
-print(2+2)
-print("2"+"2")
+
+# Crop and Resizing the images
+
+print(road.shape)
+sq=square(road)
+cv.imshow("road",road)
+cv.imshow("sqaure_image",sq)
+cv.waitKey(0)
+print(sq.shape)
+
+#Cropping
+crop_image=road[300:553,358:600] #[height:width]=[px:px : px:px]
+cv.imshow("Cropped Image",crop_image)
+cv.waitKey(0)
