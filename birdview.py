@@ -9,9 +9,10 @@ pts2=np.float32([[0,0],[300,0],[0,400],[300,400]])# setting the image
 matrix=cv.getPerspectiveTransform(pts1,pts2)
 image_output=cv.warpPerspective(king,matrix,(300,400))
 
+for x in range(0,4):
+    cv.circle(king,(pts1[x][0],pts1[x][1]),5,(0,0,255),cv.FILLED)
 
-
-
+cv.imshow("Point where warp",king)
 cv.imshow("warp_Prespective",image_output)
 cv.waitKey(0)
 print(king.shape)
